@@ -22,22 +22,22 @@ public class SwaggerConfig {
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-//                   当前包路径
+                // 当前包路径
                 .apis(RequestHandlerSelectors.basePackage("com.moon.prize.api.action"))
                 .paths(PathSelectors.any()).build();
 
     }
 
-    //构建api文档的详细信息函数
+    // 构建api文档的详细信息函数
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                //页面标题
-                .title("抽奖系统前端"+appName)
-                //创建人
-                .contact(new Contact("Shawn", null, "wangshouwen@itcast.cn"))
-                //版本号
+                // 页面标题
+                .title("抽奖系统前端" + appName)
+                // 创建人
+                .contact(new Contact("Moon", null, "moonkira@moon.com"))
+                // 版本号
                 .version("1.0")
-                //描述
+                // 描述
                 .description("提供给前端页面调用的相关接口")
                 .build();
     }

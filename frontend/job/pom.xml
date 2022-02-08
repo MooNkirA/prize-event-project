@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.moon.prize</groupId>
-    <artifactId>job</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-
 
     <parent>
         <groupId>com.moon.prize</groupId>
         <artifactId>frontend</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>job</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,8 +21,7 @@
     </properties>
 
     <dependencies>
-
-        <!--框架核心jar包-->
+        <!-- elastic-job 框架核心jar包 -->
         <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>elastic-job-lite-core</artifactId>
@@ -44,6 +41,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- 手动引入 curator 依赖，指定不会冲突的版本 -->
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
@@ -59,14 +57,14 @@
             <artifactId>curator-recipes</artifactId>
             <version>${curator.version}</version>
         </dependency>
-
+        <!-- spring 便利操作 elastic-job API 的框架 -->
         <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>elastic-job-lite-spring</artifactId>
             <version>${job.version}</version>
         </dependency>
 
-        <!--添加数据相关的驱动主要是为了记录任务相关的一些数据，日志-->
+        <!-- 添加数据相关的驱动主要是为了记录任务相关的一些数据，日志 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
