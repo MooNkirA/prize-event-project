@@ -11,25 +11,26 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ElasticSimpleJob {
 
+    // cron 表达式
     @AliasFor("cron")
-    public abstract String value() default "";
+    String value() default "";
 
     @AliasFor("value")
-    public abstract String cron() default "";
+    String cron() default "";
+    // 定时任务的名称
+    String jobName() default "";
+    // 分片的数量，即在分布式环境中分成多份同时执行
+    int shardingTotalCount() default 1;
+    // 指定不同分片所获取到的传递参数
+    String shardingItemParameters() default "";
+    // 执行任务所传递的参数
+    String jobParameter() default "";
+    // 定义数据源，值是数据源实例在 spring 容器中的名称
+    String dataSource() default "";
 
-    public abstract String jobName() default "";
+    String description() default "";
 
-    public abstract int shardingTotalCount() default 1;
+    boolean disabled() default false;
 
-    public abstract String shardingItemParameters() default "";
-
-    public abstract String jobParameter() default "";
-
-    public abstract String dataSource() default "";
-
-    public abstract String description() default "";
-
-    public abstract boolean disabled() default false;
-
-    public abstract boolean overwrite() default true;
+    boolean overwrite() default true;
 }

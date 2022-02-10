@@ -402,7 +402,7 @@ public final class RedisUtil {
     }
     // ===============================list=================================
 
-    public Object leftPop(String key){
+    public Object leftPop(String key) {
         try {
             return redisTemplate.opsForList().leftPop(key);
         } catch (Exception e) {
@@ -410,7 +410,8 @@ public final class RedisUtil {
             return null;
         }
     }
-    public Object rightPop(String key){
+
+    public Object rightPop(String key) {
         try {
             return redisTemplate.opsForList().rightPop(key);
         } catch (Exception e) {
@@ -418,38 +419,43 @@ public final class RedisUtil {
             return null;
         }
     }
-    public Object leftPush(String key,Object o){
+
+    public Object leftPush(String key, Object o) {
         try {
-            return redisTemplate.opsForList().leftPush(key,o);
+            return redisTemplate.opsForList().leftPush(key, o);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    public Object rightPush(String key,Object o){
+
+    public Object rightPush(String key, Object o) {
         try {
-            return redisTemplate.opsForList().rightPush(key,o);
+            return redisTemplate.opsForList().rightPush(key, o);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    public Object leftPushAll(String key,Collection collection){
+
+    public Object leftPushAll(String key, Collection collection) {
         try {
-            return redisTemplate.opsForList().leftPushAll(key,collection);
+            return redisTemplate.opsForList().leftPushAll(key, collection);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    public Object rightPushAll(String key,Collection collection){
+
+    public Object rightPushAll(String key, Collection collection) {
         try {
-            return redisTemplate.opsForList().rightPushAll(key,collection);
+            return redisTemplate.opsForList().rightPushAll(key, collection);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
     /**
      * 获取list缓存的内容
      *

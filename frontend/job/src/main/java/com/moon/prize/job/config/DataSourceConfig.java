@@ -8,15 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 /**
- * 描述
+ * 数据源配置类
  *
- * @ProjectName: framework_v2_idea2
  * @Package: com.moon.prize.job.config
  * @ClassName: DataSourceConfig
- * @Author: JackWang
- * @CreateDate: 2019/1/11 0011 9:40
- * @UpdateUser: JackWang
- * @UpdateDate: 2019/1/11 0011 9:40
  * @Version: 1.0
  */
 @Configuration
@@ -24,7 +19,7 @@ public class DataSourceConfig {
 
     @Bean("datasource")
     @ConfigurationProperties("spring.datasource")
-    public DataSource dataSourceTow(){
+    public DataSource dataSourceTow() {
         return DruidDataSourceBuilder.create().build();
     }
 }

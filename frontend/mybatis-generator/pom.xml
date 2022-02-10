@@ -27,6 +27,9 @@
                         <artifactId>mysql-connector-java</artifactId>
                         <version>5.1.31</version>
                     </dependency>
+                    <!-- 因为此项目是以插件的形式运行，在配置文件中配置加载一些，可以会出现类找不到的问题，
+                        所以在此需要依赖自己本身
+                     -->
                     <dependency>
                         <groupId>com.moon.prize</groupId>
                         <artifactId>coder</artifactId>
@@ -37,6 +40,7 @@
                     <overwrite>true</overwrite>
                     <outputDirectory>${project.build.directory}</outputDirectory>
                     <verbose>true</verbose>
+                    <!-- 指定哪些表需要生成代码，% 代表全部 -->
                     <tableNames>%</tableNames>
                 </configuration>
             </plugin>

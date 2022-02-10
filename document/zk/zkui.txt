@@ -44,7 +44,7 @@
 /prize/application,dev=spring.redis.port=6379
 /prize/application,dev=spring.redis.timeout=3000
 /prize/application,dev=spring.session.store-type=redis
-/prize/application=eureka.client.service-url.defaultZone=http://172.17.0.1:9001/eureka/
+/prize/application=eureka.client.service-url.defaultZone=http://127.0.0.1:9001/eureka/
 /prize/application=eureka.instance.lease-expiration-duration-in-seconds=90
 /prize/application=eureka.instance.lease-renewal-interval-in-seconds=30
 /prize/application=feign.httpclient.enabled=true

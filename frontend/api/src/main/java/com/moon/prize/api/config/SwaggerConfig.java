@@ -21,7 +21,8 @@ public class SwaggerConfig {
 
     @Bean
     public Docket docket() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+                .select()
                 // 当前包路径
                 .apis(RequestHandlerSelectors.basePackage("com.moon.prize.api.action"))
                 .paths(PathSelectors.any()).build();

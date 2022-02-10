@@ -9,14 +9,15 @@ import java.util.Date;
 
 @ApiModel("响应报文")
 public class ApiResult<T> {
-    @ApiModelProperty(value = "状态码（-1=异常，0=业务不成功，1=业务成功）",required = true)
+
+    @ApiModelProperty(value = "状态码（-1=异常，0=业务不成功，1=业务成功）", required = true)
     private int code;
-    @ApiModelProperty(value = "信息",required = true)
+    @ApiModelProperty(value = "信息", required = true)
     private String msg;
     @ApiModelProperty(value = "数据")
     private Object data;
     @ApiModelProperty(value = "服务器时间")
-    @DateTimeFormat(pattern="yyyy/MM/dd hh:mm:ss")
+    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss")
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private Date now = new Date();
 
