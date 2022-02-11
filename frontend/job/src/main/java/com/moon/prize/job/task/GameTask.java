@@ -104,7 +104,7 @@ public class GameTask implements SimpleJob {
             log.info("load bind product:{}", gameProducts.size());
 
             // 令牌桶（队列类型）
-            List<Long> tokenList = new ArrayList();
+            List<Long> tokenList = new ArrayList<>();
             gameProducts.forEach(cgp -> {
                 // 生成 amount 个 start 到 end 之间的随机时间戳做令牌
                 for (int i = 0; i < cgp.getAmount(); i++) {

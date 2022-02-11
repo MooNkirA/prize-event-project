@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+// @RabbitListener 注解指定监听的队列
 @RabbitListener(queues = RabbitKeys.QUEUE_PLAY)
 public class PrizeGameReceiver {
 
@@ -21,7 +22,8 @@ public class PrizeGameReceiver {
 
     @RabbitHandler
     public void processMessage3(CardUserGame message) {
-        logger.info("user play : game={},user={},time={} " , message.getGameid(),message.getUserid(),message.getCreatetime());
+        logger.info("user play : game={},user={},time={} ", message.getGameid(), message.getUserid(), message.getCreatetime());
+        // 持久化用户中奖活动的信息到数据库表
         cardUserGameMapper.insert(message);
     }
 
