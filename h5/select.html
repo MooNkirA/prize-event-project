@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/common.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $(function(){
+            var id = getParam('id');
+            $.get('/api/game/info/'+ id,function (d) {
+                if (d.code == 1){
+                    var start = new Date(d.data.starttime).getTime();
+                    var end = new Date(d.data.endtime).getTime();
+                    var now = new Date(d.now).getTime();
+                    var url = 'index.html';
+                    if(now < start){
+                        url = '/activity-no-start.html?id='+id;
+                    }else if( now < end){
+                        url = '/detail.html?id='+id;
+                    }else{
+                        url = '/activity-end.html?id='+id;
+                    }
+                    window.location.href=url;
+                }
+            });
+        })
+    </script>
+</head>
+</html>

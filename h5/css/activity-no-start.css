@@ -1,0 +1,91 @@
+*{
+	padding: 0;
+	margin: 0;
+	border: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html , body{
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+body{
+	background: url(../img/img_bg.jpg) no-repeat center center;
+	background-size: cover;
+}
+.nav{ 
+	width:100%; 
+	height:3.125rem;
+	line-height:3.125rem; 
+	font-size:1.125rem;
+	background-color: #FFFFFF;
+}
+
+.nav .img-close img{
+	width: 44px;
+	height: 44px;
+	float: left;
+	margin-top:0.25rem;
+	margin-left:0.125rem;	
+}
+
+.nav .intro{ 
+	width: 80%;
+	height:3.125rem;
+	line-height:3.125rem; 
+	float: left;
+	font-size:1.125rem;
+	text-align: center;
+}
+
+.nav .img-share img{
+	width: 44px;
+	height: 44px;
+	float: right;
+	margin-right: 10px;
+	margin-top:-2.9375rem;
+
+}
+
+.imme_start {
+	width: 100%;
+	text-align: center;
+	position:relative;
+}
+
+.imme_start img{
+	
+	width:375px;
+}
+
+.imme_start_text{
+	width:9.25rem;
+	height:6.25rem;
+	font-size: 20px;
+	color: #FFFFFF; 
+	margin-left:auto;
+	margin-right:auto; 
+	text-align: center;
+	position: relative;
+	margin-top: -150px;
+}
+
+.imme_moon img {
+	width: 100%;
+	position: fixed;
+	bottom: 0px;
+	clear:both;
+}
+
+.imme_moon_hdgz img{
+	width: 90px;
+	height: 43px;
+	position: absolute;
+	right: 0px;
+	bottom: 30px;
+}

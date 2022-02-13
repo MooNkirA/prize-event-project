@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<title>红包雨</title>
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/cookie.js"></script>
+		<script src="js/bouns.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bgm.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/script.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" href="css/animate.min.css">
+		<link rel="stylesheet" href="fonts/fontCss.css">
+		<link rel="stylesheet" href="css/scrollmenu.css">
+		<link rel="stylesheet" href="css/share.css">
+		<script type="text/javascript" src="js/jquery-scroll.js"></script>
+		<script type="text/javascript" src="js/bscroll.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<script type="text/javascript" src="js/scrollmenu.js"></script>
+		<script type="text/javascript" src="js/rain.js" ></script>
+		<script src="js/share.js"></script>
+		<style>textarea{display:none}</style>
+	</head>
+	<body>
+
+	<!--我的中奖纪录 start 勿删除-->
+	<div class="wdtca" id="wdtca">
+		<div id="wdtc" class="wdtc" onclick="close_img2();">
+			<img src="img/img_tc_wdtc@3x.png" />
+		</div>
+		<div class="scrollDiv2" id="s5">
+			<ul id="hits" style="height: 250px;">
+			</ul>
+		</div>
+	</div>
+	<!--我的未中奖纪录 start 勿删除-->
+	<div class="wdtcnb" id="wdtcnb">
+		<div id="wdtcn" class="wdtcn" onclick="close_img1();">
+			<img src="img/img_tc_wdtc@3x.png" />
+		</div>
+		<div class="wdtcn-img">
+			<img src="img/img_bq_yihan@3x.png" />
+		</div>
+		<div class="wdtcn-text">
+			很遗憾，您未中奖
+		</div>
+	</div>
+	<!--我的未中奖纪录 end 勿删除-->
+		<div class="share_box shar_box_center">
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_weixin@3x.png" />
+					<br /><span style="font-size: 14px;">微信</span>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_qq@3x.png" />
+					<br /><span style="font-size: 14px;">QQ</span>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_pengyouquan@3x.png" />
+					<br /><span style="font-size: 14px;">朋友圈</span>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_weibo@3x.png" />
+					<br /><span style="font-size: 14px;">微博</span>
+				</a>
+				<div style="width: 100%; height: 1px;background-color: #EDEDED;"></div>
+				<div class="share-cancel-btn btn btn-block" onclick="showList4()" style="font-size: 16px;">取消</div>
+		</div>
+	<script type="text/javascript">
+		function myhits1(){
+			var id = getParam("id");
+			$.get('/api/user/hit/'+id+'/1/100',function (d) {
+				if(d.code == 1){
+					if(d.data.items.length == 0){
+						$('.wdtcn-text').text('很遗憾，您未中奖');
+						wdjzn();
+					}else{
+                        $('#hits').empty();
+						d.data.items.forEach(function(v,i){
+							$('#hits').append(
+								'<li>' +
+								'<span style="width:100px;color:#FBF102;float:left">'+v.name.substr(0,5) + (v.name.length >5 ? '...' : '')+'</span>' +
+								// '<font color="#FFFFFF">&nbsp; '+v.hittime.replace(/\-/g,'.')+'</font>' +
+								'<span style="width:100px;color:#FFFFFF;margin-left:20px">'+v.hittime.substr(0,10)+'</span>' +
+								'</li>');
+						})
+						// $("#hits").processTemplate(d.data.items);
+						wdjz();
+					}
+				}else{
+					$('.wdtcn-text').text(d.msg);
+					wdjz();
+				}
+			});
+		}
+		function showList3(){
+			
+			// 如果已锁定触摸，不允许执行
+			if(typeof(touchLock) != 'undefined' && touchLock){
+				return false;
+			}
+			
+			$(".share_box").show().animate({bottom: "0px"}, 600);
+			var docHeight = $(document).height(); //获取窗口高度
+			$('body').append('<div id="overlay"></div>');
+			  $('#overlay').show();
+			  $('#overlay')
+			    .height(docHeight)
+			    .css({
+			      'opacity': .9, //透明度
+			      'position': 'absolute',
+			      'top': 0,
+			      'left': 0,
+			      'background-color': 'rgba(0,0,0,0.5)',
+			      'width': '100%',
+			      'z-index': 100 //保证这个悬浮层位于其它内容之上
+			
+			});
+			// 弹出分享后，禁止滑动页面
+			$("body").bind("touchmove", function(event) {
+				if(event.preventDefault){
+					event.preventDefault();// 阻止浏览器默认事件
+				}
+			});
+		}
+		function showList4(){
+			
+			$(".share_box").animate({bottom: "-160px"}, 600, 'swing', function(){$(".share_box").hide();});
+			
+			// 取消分享后，解除滑动
+			$("body").unbind("touchmove");
+			
+			$('#overlay').hide();
+		}
+		//我的中奖纪录
+		function wdjz(){
+			
+			//$('#wdtca').show();
+			var aa = layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 0,
+			  area: ['280px', '300px'],
+			  skin: 'layui-layer-nobg',
+			  shade: 0.7,
+			  scrollbar: false,
+			  content: $('#wdtca')
+			});
+		}
+		function close_img2(){
+			layer.closeAll();
+			
+			
+			$('.wdtca').hide();
+			
+			
+		}
+		
+		//我的未中奖纪录
+		function wdjzn(){
+			
+			//$('#wdtcnb').show();
+			layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 0,
+			  area: ['280px', '300px'],
+			  skin: 'layui-layer-nobg',
+			  shade: 0.7,
+			  scrollbar: false,
+			  content: $('#wdtcnb')
+			});
+		}
+		function close_img1(){
+			layer.closeAll();
+			$('#wdtcnb').hide();
+			return;
+		}
+		</script>
+		
+		<script type="text/javascript">
+			//滚动插件
+			(function($){
+				$.fn.extend({
+					Scroll:function(opt,callback){
+							//参数初始化
+							if(!opt) var opt={};
+							var _this=this.eq(0).find("ul:first");
+							var lineH=_this.find("li:first").height(), //获取行高
+								line=opt.line?parseInt(opt.line,10):parseInt(this.height()/lineH,10), //每次滚动的行数，默认为一屏，即父容器高度
+								speed=opt.speed?parseInt(opt.speed,10):500, //卷动速度，数值越大，速度越慢（毫秒）
+								timer=opt.timer?parseInt(opt.timer,10):3000; //滚动的时间间隔（毫秒）
+							if(line==0) line=1;
+							var upHeight=0-line*lineH;
+							//滚动函数
+							scrollUp=function(){
+									_this.animate({
+											marginTop:upHeight
+									},speed,function(){
+											for(i=1;i<=line;i++){
+													_this.find("li:first").appendTo(_this);
+											}
+											_this.css({marginTop:0});
+									});
+							}
+							//鼠标事件绑定
+							_this.hover(function(){
+									clearInterval(timerID);
+							},function(){
+									timerID=setInterval("scrollUp()",timer);
+							}).mouseout();
+					}       
+				});
+			})(jQuery);
+			
+			$(document).ready(function(){
+				$("#s5").Scroll({line:5,speed:500,timer:4000});
+			});
+			</script>
+
+			
+	</body>
+</html>

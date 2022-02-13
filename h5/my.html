@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>个人中心</title>
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+        <meta content="yes" name="apple-mobile-web-app-capable"/>
+        <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+        <meta content="telephone=no" name="format-detection"/>
+        <link href="css/my.css" rel="stylesheet" type="text/css"/>
+		<link rel="stylesheet" href="css/animate.min.css" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<link rel="stylesheet" href="syalert/syalert.min.css" />
+		<script src="syalert/syalert.min.js"></script>
+    </head>
+    <body>
+        <section class="aui-flexView">
+			<div class="img-back">
+				<a href="/index.html">
+					<img style="width:44px;height:44px;margin-top: 4px;margin-left: 5px;" src="img/btn_nav_back@3x.png" />
+				</a>
+				<div class="intro">
+					个人中心
+				</div>
+			</div>
+            <section class="aui-scrollView">
+                <div class="aui-header-bj">
+                    <div class="aui-head-user">
+                        <div class="aui-head-user-hd">
+                            <img src="img/user-logo.png" alt="" id="headpic">
+                        </div>
+                        <div class="aui-head-user-bd">
+                            <h2 id="uname"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="aui-palace aui-palace-line clearfix">
+                    <a href="javascript:;" class="aui-palace-grid">
+                        <div class="aui-palace-grid-text">
+                            <h2 id="info"> 请登录 </h2>
+                        </div>
+                    </a>
+                </div>
+				<div class="cyhd-zjjl">
+			
+					<div class="cyhd">	
+						<div class="cyhd-img">
+							<img src="img/img_bg_cyhd@3x.png" />
+						</div>
+						<span>0</span>
+					</div>
+					<div class="zjjl">
+						<div class="zjjl-img">
+							<img src="img/imng_bg_zjjl@3x.png" />
+						</div>
+						<span>0</span>
+					</div>
+				</div>
+				<div class="wdjp">
+					<div class="wdjp-img">
+						<img src="img/img_bg_wdjp@3x.png" />
+					</div>
+					<div class="scrollDiv" id="s3">
+						<ul id="myProducts" style="width: 100%;text-align: center;margin-top: 7px;">
+						</ul>
+											
+					</div>
+						<!--中奖页面 end 切勿删除-->
+							<!--未中奖页面 start-->
+							<!--<div class="wzj">
+								<img src="img/img_bq_yihan@3x.png" />	
+							</div>
+							<div class="wzj-text">
+								很遗憾，您未中奖
+							</div>-->
+						<!--未奖页面 end-->
+				</div>
+				<div style="border-radius:10px;width:91%;text-align: center;background:linear-gradient(0deg,#FFC437,#FFDC66);height:54px;color: #B3111C;line-height:54px;margin-left:16px;margin-bottom:20px;left:0px; bottom:20px; " onClick="syalert.syopen('alert1')">退出登录</div>
+			</section>
+        </section>
+		
+
+		<!-- 退出登录 -->
+		<div class="sy-alert animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true" id="alert1">
+		  <div class="sy-title">温馨提示</div>
+		  <div class="sy-content">确定要退出登录吗？</div>
+		  <div class="sy-btn">
+		    <button onClick="syalert.syhide('alert1')">取消</button>
+		    <button onClick="ok('alert1')">确定</button>
+		  </div>
+		</div>
+		<script>
+		function ok(id){
+            $.get('/api/logout',function (d) {
+                if(d.code ==1){
+                    syalert.syhide('alert1');
+                    window.location.href="index.html"
+                }
+
+            });
+		}
+		$(function () {
+            $.get('/api/user/info',function (d) {
+                if(d.code == 1){
+                    $('#info').text(d.data.realname + '  |  ' + d.data.phone);
+                    $('#uname').text(d.data.uname);
+                    $('.cyhd').find('span').text(d.data.games);
+                    $('.zjjl').find('span').text(d.data.products);
+                    if(d.data.pic){
+                        $('#headpic').attr('src',d.data.pic);
+					}
+                }
+            });
+            $.get('/api/user/hit/-1/1/100',function (d) {
+                if(d.code == 1){
+                    d.data.items.forEach(function (v) {
+                        var li =
+                            '<li><span style="width:90px;float:left;margin-left:30px;color:#FFFFFF;text-align: left;">' +
+                            v.title.substr(0,4) + (v.title.length >4 ? '..' : '')+
+                            '</span> <span style="width:115px;float:left;color:#FBF102;text-align: left;">' +
+                            v.name.substr(0,5) +  (v.name.length >5 ? '..' : '')+
+                            '</span><span style="width:90px;color:#FFFFFF;float:right;margin-right:25px">' +
+                            v.hittime.substr(0,10) +
+                            '</span></li>';
+                        $('#myProducts').append(li);
+					})
+                    $("#s3").Scroll({line:4,speed:500,timer:4000});
+                }
+            })
+        })
+		</script>
+		<script type="text/javascript">
+			//滚动插件
+			(function($){
+				$.fn.extend({
+					Scroll:function(opt,callback){
+							//参数初始化
+							if(!opt) var opt={};
+							var _this=this.eq(0).find("ul:first");
+							var lineH=_this.find("li:first").height(), //获取行高
+								line=opt.line?parseInt(opt.line,10):parseInt(this.height()/lineH,10), //每次滚动的行数，默认为一屏，即父容器高度
+								speed=opt.speed?parseInt(opt.speed,10):500, //卷动速度，数值越大，速度越慢（毫秒）
+								timer=opt.timer?parseInt(opt.timer,10):3000; //滚动的时间间隔（毫秒）
+							if(line==0) line=1;
+							var upHeight=0-line*lineH;
+							//滚动函数
+							scrollUp=function(){
+									_this.animate({
+											marginTop:upHeight
+									},speed,function(){
+											for(i=1;i<=line;i++){
+													_this.find("li:first").appendTo(_this);
+											}
+											_this.css({marginTop:0});
+									});
+							}
+							//鼠标事件绑定
+							_this.hover(function(){
+									clearInterval(timerID);
+							},function(){
+									timerID=setInterval("scrollUp()",timer);
+							}).mouseout();
+					}       
+				});
+			})(jQuery);
+			
+			</script>
+		
+    </body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>活动介绍</title>
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+		<meta content="telephone=no" name="format-detection"/>
+		<link rel="stylesheet" type="text/css" href="css/activity-rule.css"/>
+		  <link rel="stylesheet" href="css/swiper.min.css">
+		<script type="text/javascript" src="js/swiper.min.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-jtemplates.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+        <style>textarea{display:none}</style>
+	</head>
+	<body>
+		<div class="nav">
+			<div class="img-back">
+				<a href="javascript:window.location.href='select.html?id='+getParam('id')">
+					<img style="width:44px;height:44px;margin-left: 5px;" src="img/btn_nav_back@3x.png" />
+				</a>
+			</div>
+			<div class="intro">
+				活动介绍
+			</div>
+		</div>
+		<div class="main">
+			
+			<div style="position:relative;">
+				<img style="width:100%;" src="img/img_bg_jpfl@3x.png" />
+			</div>
+			<div class="swiper-container" style="position: absolute;top:65px;text-align: center;line-height: 20px;">
+				<div class="swiper-wrapper" id="products"></div>
+				<br /><br />
+				<div class="swiper-pagination" style="margin-left: -68px;"></div>
+			</div>
+			<div class="hdgz">
+				<div class="hdgz-list">
+					
+				<ul>
+					<li>
+							<span>1、抽奖时间：</span>
+							<div class="cjsj">2019年9月6日16:40:00-2019年9月6日16:45:00</div>
+					</li>
+					<li>
+							<span>2、抽奖规则：</span>
+							<div class="cjgz">
+								1. 非本集团员工不得参与本次活动。
+								<br />
+								2. 中奖结果以系统显示姓名为准。
+							</div>
+					</li>
+				</ul>
+				</div>
+			</div>
+			<div class="zjmd">
+					<div class="zjmd-img">
+						<img src="img/img_bg_zjmd@3x.png" />
+					</div>
+					<div class="scrollDiv" id="s2">
+						<ul id="hits" style="line-height: 38px;">
+
+						</ul>
+					</div>
+			</div>
+		</div>
+
+		  
+		<script type="text/javascript">
+			//滚动插件
+			(function($){
+
+				$.fn.extend({
+					Scroll:function(opt,callback){
+							//参数初始化
+							if(!opt) var opt={};
+							var _this=this.eq(0).find("ul:first");
+							var lineH=_this.find("li:first").height(), //获取行高
+								line=opt.line?parseInt(opt.line,10):parseInt(this.height()/lineH,10), //每次滚动的行数，默认为一屏，即父容器高度
+								speed=opt.speed?parseInt(opt.speed,10):500, //卷动速度，数值越大，速度越慢（毫秒）
+								timer=opt.timer?parseInt(opt.timer,10):3000; //滚动的时间间隔（毫秒）
+							if(line==0) line=1;
+							var upHeight=0-line*lineH;
+							//滚动函数
+							scrollUp=function(){
+									_this.animate({
+											marginTop:upHeight
+									},speed,function(){
+											for(i=1;i<=line;i++){
+													_this.find("li:first").appendTo(_this);
+											}
+											_this.css({marginTop:0});
+									});
+							}
+							//鼠标事件绑定
+							_this.hover(function(){
+									clearInterval(timerID);
+							},function(){
+									timerID=setInterval("scrollUp()",timer);
+							}).mouseout();
+					}
+				});
+			})(jQuery);
+
+			$(document).ready(function(){
+				var id = getParam("id");
+				//活动基本信息
+				$.get('/api/game/info/'+id,function (d) {
+                    if (d.code == 1){
+                        $('.intro').text(d.data.title);
+                        $('.cjsj').text(d.data.starttime + '至' +d.data.endtime);
+                    }
+                });
+				//奖品信息
+				$.get('/api/game/products/'+id,function (d) {
+                    if (d.code == 1){
+                        $('#products').empty();
+                        $("#products").setTemplateElement("products-template");
+                        $("#products").processTemplate(d.data);
+                        // d.data.forEach(function (v) {
+                        //     $('#products').append(
+                        //         '<div class="swiper-slide">' +
+                        //         '<img style="width:60%;" src="'+v.pic+'" />' +
+                        //         '<br />&nbsp;&nbsp;&nbsp;&nbsp;' +
+                        //         '<div style="color: #FBF102;font-size: 14px;word-break: break-word">' +
+                        //         v.name + 'x' + v.amount +
+                        //         '</div><br /></div>');
+                        // });
+
+
+						if(d.data.length > 6){
+							var swiper = new Swiper('.swiper-container', {
+								width: window.innerWidth,
+								height : window.innerHeight,
+							    slidesPerView: 3,
+							    slidesPerColumn: 2,
+							    slidesPerColumnFill : 'row',
+							    spaceBetween: 0,
+							    pagination: {
+								   el: '.swiper-pagination',
+								   clickable: true,
+							    },
+							});
+						}else{
+							var swiper = new Swiper('.swiper-container', {
+								width: window.innerWidth,
+								height : window.innerHeight,
+							    slidesPerView: 3,
+							    slidesPerColumn: 2,
+							    slidesPerColumnFill : 'row',
+							    spaceBetween: 0,
+							 
+							});
+						}
+					
+                    }
+                });
+				//中奖信息
+				$.get('/api/game/hit/'+id +"/1/10",function (d) {
+                    // $('#hits').empty();
+                    if (d.code == 1){
+                        $("#hits").setTemplateElement("hits-template");
+                        $("#hits").processTemplate(d.data.items);
+                        $("#s2").Scroll({line:4,speed:500,timer:4000});
+                        // d.data.items.forEach(function (v) {
+                        //     console.log(v);
+                        //     $('#hits').append(
+                        //         '<li><span style="color:#FFFFFF;width:150px;float:left;">' +
+                        //         '恭喜' + v.uname.substr(0,5) + v.uname.length > 5 ? '...':'' +
+                        //         '</span><span style="color:#FBF102;width: 100px;">' +
+                        //         '抢到 '+v.name.substr(0,5)+ v.name.length > 5 ? '...':'' +
+                        //         '</span></li>'
+							// );
+                        // });
+                    }
+                });
+
+			});
+			</script>
+		<textarea id="products-template">
+            {#foreach $T as record}
+            		<div class="swiper-slide"><img style="width:60%;" src="{$T.record.pic}" /><br />&nbsp;&nbsp;&nbsp;&nbsp;<div style="color: #FBF102;font-size: 14px;word-break: break-word">{$T.record.name}x{$T.record.amount}</div><br /></div>
+            {/#foreach}
+        </textarea>
+		<textarea id="hits-template">
+            {#foreach $T as record}
+            		<li><span style="color:#FFFFFF;width:150px;float:left;">
+						恭喜 {$T.record.uname.substr(0,5)}{$T.record.uname.length > 5 ? '...':''}
+					</span><span style="color:#FBF102;width: 100px;">
+						抢到 {$T.record.name.substr(0,5)}{$T.record.name.length > 5 ? '...':''}
+					</span></li>
+					<!--<li><span style="color:#FFFFFF;width:130px;float:left;">恭喜 abc...234</span><span style="color:#FBF102;width: 100px;">抢到100元购物卡   </span></li>-->
+            {/#foreach}
+        </textarea>
+	</body>
+</html>

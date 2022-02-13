@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link type="text/css" href="css/css.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/animate.min.css"/>
+    <link rel="stylesheet" href="syalert/syalert.min.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/jquery-jtemplates.js"></script>
+    <script src="syalert/syalert.min.js"></script>
+
+    <title>抽奖-红包雨</title>
+
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        *:focus {
+            outline: none;
+        }
+        .tsm {
+            background: #333;
+            font-size: 13px;
+            color: #fff;
+            margin: 20px;
+            margin-top: 0px;
+            padding: 12px;
+            line-height: 25px;
+        }
+        .tsm .p2 {
+            margin-top: 12px;
+        }
+        .btns {
+            padding: 20px;
+        }
+        .btns div {
+            display: block;
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            background: #0CC;
+            color: #fff;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body style="background:#f4f4f4;">
+<div class="nav">
+    <div style="width: 70%;float: left;margin-left: 2.625rem;">欢乐福利区</div>
+    <div style="width: 10%;float: left;" onClick="syalert.syopen('alert4')" id="userDiv">登录</div>
+</div>
+<div style="width: 100%; height: 1px;background-color: #EDEDED;"></div>
+<ul class="one" id="game-list"></ul>
+<!-- 自定义弹窗 -->
+<div class="sy-alert sy-alert-model animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="confirm" sy-mask="true"
+     id="alert4">
+    <div class="sy-title">用户登录</div>
+    <div class="sy-content">
+        <div class="form">
+            <p class="input-item"><span style="width:20%;height:44px; float: left;background-color: #d3d3d3;text-align: center;border-top-left-radius:5px;border-bottom-left-radius:5px;"><img style="width: 20px;height:20px;margin-top: 10px;" src="img/icon_yonghuming@3x.png" /></span><input style="width:80%;height:44px;border-top-right-radius:5px;border-bottom-right-radius:5px;background-color: #efefef;" type="text" id="account" placeholder="请输入用户名"/></p>
+            <p class="input-item"><span style="width:20%;height:44px; float: left;background-color: #d3d3d3;text-align: center;border-top-left-radius:5px;border-bottom-left-radius:5px;"><img style="width: 20px;height:20px;margin-top: 10px;" src="img/icon_mima@3x.png" /></span><input style="width:80%;height:44px;border-top-right-radius:5px;border-bottom-right-radius:5px;background-color: #efefef;" type="password" id="password" placeholder="请输入密码"/></p>
+        </div>
+    </div>
+    <div class="sy-btn">
+        <button onClick="syalert.syhide('alert4')">取消</button>
+        <button onClick="login()">确定</button>
+    </div>
+</div>
+<div class="sy-alert sy-alert-tips animated" sy-enter="zoomIn" sy-leave="zoomOut" sy-type="tips" sy-mask="false" id="alert3">
+    <div class="sy-content" id="msg">登录成功</div>
+</div>
+<div style="clear:both;"></div>
+<div style="clear:both;color:#aaa;margin-top:10px;margin-bottom: 20px;" id="more">更多...</div>
+<script>
+    //分页信息
+    var page = 1;
+    var limit = 3;
+    //是否登录
+    var isLogin=false;
+    function notStart(){
+        $('#msg').text('该活动尚未开始！');
+        syalert.syopen('alert3');
+    }
+    function login() {
+        $.post('/api/login', {account: $('#account').val(), password: $('#password').val()}, function (d) {
+            $('#msg').text(d.msg);
+            if (d.code != 1) {
+                syalert.syopen('alert3');
+            } else {
+                isLogin = true;
+                syalert.syhide('alert4');
+                syalert.syopen('alert3');
+                $('#userDiv').html('<a href="my.html">'+d.data.uname+'</a>');
+            }
+        })
+    }
+
+    function loadGame(start, limit) {
+        $.get('/api/game/list/-1/' + start + '/' + limit, function (d) {
+            if (d.data.isMore == 0) {
+                $('#more').text('没了...').unbind('click');
+            }
+            d.data.items.forEach(function (v, i) {
+                var starttime = new Date(v.starttime);
+                var endtime = new Date(v.endtime);
+                var now = new Date(d.now);
+                var statusName = '';
+                var url = 'select.html?id='+v.id;
+                if (now < starttime) {
+                    // url = 'activity-no-start.html?id='+v.id;
+                    statusName = '未开始 | 开启时间：' + v.starttime;
+                } else if (starttime < now && now < endtime) {
+                    // url = 'detail.html?id='+v.id;
+                    statusName = '进行中 | 还剩：<font style="font-size: 1.25rem;color: red;">' +
+                        '<span class="diffSec">' +
+                        parseInt((endtime.getTime() - now.getTime()) / 1000)
+                        + '</span>秒</font>';
+                } else if (endtime < now) {
+                    // url = 'activity-end.html?id='+v.id;
+                    statusName = '已结束';
+                }
+
+                var text =
+                    '		<li>                                                                                                                                       ' +
+                    '			<a href="'+url+'" class="togame"><div class="one-left">                                                                                        ' +
+                    '		    	<div class="filter">                                                                                                   ' +
+                    '					<img src="' + v.pic + '" width="100%" style="border-top-left-radius:10px;border-top-right-radius:10px;"/>                                                                                      ' +
+                    '					<div class="activity" ><div class="activity-text">           ' +
+                    statusName +
+                    '                    </div></div>                                                                                                                        ' +
+                    '				</div>                                                                                                                             ' +
+                    '		        <div class="one-text">                                                                                                             ' +
+                    '		        	<h3>' + v.title.substring(0, 20) + '</h3>                                                                                     ' +
+                    '		        	<p>' + v.info.substring(0, 20) + (v.info.length > 20 ? '...':'') +'</p>                                                                                     ' +
+                    '		        </div>                                                                                                                             ' +
+                    '		    </div></a>                                                                                                                             ' +
+                    '		</li>                                                                                                                                      ';
+
+                $('#game-list').append(text);
+
+            });
+        });
+    }
+
+
+    $(function () {
+        //首次加载
+        loadGame(page, limit);
+        page++;
+        //点击更多
+        $('#more').click(function () {
+            loadGame(page, limit);
+            page++;
+        });
+        $('.togame').live('click',function () {
+            if(!isLogin){
+                //提示未登录
+                // $('#msg').text('您未登录！');
+                // syalert.syopen('alert3');
+
+                //直接弹出登录框
+                syalert.syopen('alert4');
+                return false;
+            }
+        });
+        //是否已登录？
+        $.get('/api/user/info',function (d) {
+            if(d.code == 1){
+                isLogin = true;
+                $('#userDiv').html('<a href="my.html">'+d.data.uname+'</a>');
+            }
+        });
+        //倒计时自动减
+        intervalId = setInterval(function () {
+            $('.diffSec').each(function (value) {
+                var toVal = $(this).text() - 1;
+                if (toVal <= 0) {
+                    $(this).closest('div').text('已结束');
+                } else {
+                    $(this).text(toVal);
+                }
+            })
+            // clearInterval(intervalId);
+        }, 1000);
+    });
+
+</script>
+</body>
+</html>

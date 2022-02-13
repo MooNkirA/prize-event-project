@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<title>活动未开始-页面</title>
+		<link rel="stylesheet" type="text/css" href="css/activity-no-start.css"/>
+		<link rel="stylesheet" href="css/animate.min.css">
+		<link rel="stylesheet" href="fonts/fontCss.css">
+		
+		<link rel="stylesheet" href="css/share.css">
+		<link rel="stylesheet" href="css/scrollmenu.css">
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			$(function () {
+                var id = getParam("id");
+                $.get('/api/game/info/'+id,function (d) {
+                    if(d.code == 1){
+                        $('.intro').text(d.data.title);
+                        $('.imme_start_text').text(d.data.starttime);
+                        //还剩xx天xx时分秒
+                        // TimeDown('timedown',d.data.starttime);
+                    }
+                });
+            })
+			function detail(){
+                var id = getParam("id");
+			    window.location.href = "activity-rule.html?id="+ id;
+			}
+		</script>
+	</head>
+	<body>
+		
+		<div class="nav">
+			<div class="img-close">
+				 <a href="/index.html">
+					<img src="./img/btn_nav_back@3x.png" />
+				 </a>
+
+			 </div>
+			<div class="intro">
+				浓情中秋  感恩大礼
+			</div>
+			 <div class="img-share">
+			 	 <a href="#" class="share-btn">
+			 		<img src="./img/btn_nav_share@3x.png" />
+			 	 </a>
+			  </div>
+		</div>
+		<div>
+			
+			<div class="imme_start">
+			    <img src="img/img_kaiqishijian@3x.png">
+			</div>
+			<div class="imme_start_text" id="timedown"></div>
+			<!--<div>
+			<div class="imme_start">
+				<img src="img/img_kaiqishijian.png" />
+				<div class="imme_start_text" id="timedown">
+				</div>
+			</div>
+			</div>-->
+			<div>
+				<div class="imme_moon">
+					<img src="img/img_bg_moon.png" />
+				</div>
+				<div class="imme_moon_hdgz">
+					<a href="javascript:detail();"><img  src="img/img_huodongguize@3x.png" /></a>
+				</div>
+				
+			</div>
+		</div>
+		<div class="share_box shar_box_center">
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_weixin.png" />
+					<br /><span style="font-size: 14px;">微信</span>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_qq.png" />
+					<br /><span style="font-size: 14px;">QQ</span>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_pengyouquan.png" />
+					<br /><span style="font-size: 14px;">朋友圈</span>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="" target="_blank">
+					<img style="width: 47px;height: 47px;" src="img/btn_share_weibo.png" />
+					<br /><span style="font-size: 14px;">微博</span>
+				</a>
+				<div style="width: 100%; height: 1px;background-color: #EDEDED;"></div>
+				<div class="share-cancel-btn btn btn-block" style="font-size: 16px;">取消</div>
+			</div>
+		<script type="text/javascript" src="js/jquery-scroll.js"></script>
+		<script type="text/javascript" src="js/bscroll.js"></script>
+		<script type="text/javascript" src="js/scrollmenu.js"></script>
+		<script src="js/share.js"></script>
+		<script type="text/javascript">
+				function showList1(){
+					$("body").scrollmenu({
+						type:'',
+						// bscroll:true,
+						// animateIn:'bounceIn',
+						// animateOut:'bounceOut',
+						click:function(ret){
+							if(ret.hasHref){
+								return
+							}else{
+								// switch (ret.index){
+								// 	case 0:
+								// 	alert(0);
+								// 	break;
+								// }
+								alert(JSON.stringify(ret));
+							}
+						}
+					});
+				}
+		</script>
+	</body>
+</html>

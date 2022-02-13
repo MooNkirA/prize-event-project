@@ -1,0 +1,359 @@
+*{
+	padding: 0;
+	margin: 0;
+	border: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html , body{
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+body{
+	background: url(../img/img_bg.jpg) no-repeat center center;
+	background-size: cover;
+}
+
+.showTxt{
+	opacity: 0;
+	z-index: 2;
+	position: absolute;
+	top: -100px;left: 0;
+	color: #000;
+	font-style: normal;
+	font-size: 16px;
+	font-weight: 700;
+}
+.showTxt.on{
+	-webkit-animation: showTxtAn .8s;
+	animation: showTxtAn .8s;
+}
+
+@-webkit-keyframes showTxtAn{
+	0%{opacity: 0;}
+	100%{
+		opacity: 1;
+		transform: translateY(-30px);
+	}
+}
+@keyframes showTxtAn{
+	0%{opacity: 0;}
+	100%{
+		opacity: 1;
+		transform: translateY(-30px);
+	}
+}
+
+	
+.nav{ 
+	width:100%; 
+	height:3.125rem;
+	line-height:3.125rem; 
+	font-size:1.125rem;
+	background-color: #FFFFFF;
+	z-index: 999;
+}
+
+.nav .img-close{
+	width: 10%;
+	height: 2.75rem;
+	float: left;
+	margin-top:0.25rem;
+	margin-left:0.25rem;	
+}
+
+.nav .intro{ 
+	width: 80%;
+	height:3.125rem;
+	line-height:3.125rem; 
+	float: left;
+	font-size:1.125rem;
+	text-align: center;
+}
+
+.nav .img-share{
+	width: 10%;
+	height: 2.75rem;
+	float: right;
+	margin-right: 10px;
+	margin-top:-2.9375rem;
+	
+
+}
+
+.bonusList{
+	text-decoration: none;
+	position: absolute;
+	text-align: center;
+	padding-top: 1.5625rem;
+	z-index: 1;
+	background: url(../img/img_hongbao02@3x.png) no-repeat center center;
+	background-size: cover;
+	width: 73px;
+	height: 73px;
+	transition: 4s ease-out;
+	top: 1.675rem;
+}
+.bonusList.down{
+	top: 110%;
+}
+
+
+
+ 
+progress
+
+{
+
+   color:red; /*兼容IE10的已完成进度背景*/
+
+    border-radius: 5rem; 
+   
+
+   background:#FFFFFF;/*这个属性也可当作Chrome的已完成进度背景，只不过被下面的::progress-bar覆盖了*/     
+
+}
+
+.timeoutBox{
+	
+	height: 5px;top: 100px;left: 0;
+	position: fixed;z-index: 111;
+	width: 100%;
+	transition: 1s linear;
+	border-radius:19px;
+	margin-left:auto;
+	margin-right:auto;  
+	text-align: center;
+	
+}
+.createAlertInfo{
+	position: fixed;
+	z-index: 200;
+	top: 0;left: 0;width: 100%;height: 100%;
+	background-color: rgba(0,0,0,0.5);
+	display: flex;
+	align-items: center;
+	
+}
+.createAlertInfo .con{
+	text-align: center;
+	color: #fff;
+	font-size: 14px;
+	z-index: 201;
+	width: 100%;
+	transition: 0.3s;
+	transform: scale(0.4);
+	opacity: 0;
+}
+
+.createAlertInfo .con.on{
+	transform: scale(1);
+	opacity: 1;
+}
+
+.createAlertInfo .con img{
+	width: 340px;
+	height: 444px;
+}
+
+
+progress{
+     width: 168px;
+      height: 17px;
+      color:#FF0000;
+      background:#FFFFFF;
+      border-radius: 0.9375rem;
+  }
+  /* 表示总长度背景色 */
+progress::-webkit-progress-bar{     
+     background-color: #FFFFFF;
+     border-radius: 0.9375rem;
+ }
+/* 表示已完成进度背景色 */
+progress::-webkit-progress-value{
+       background: #FF0000;
+     border-radius: 0.9375rem; 
+ }
+
+
+.createAlertInfo .con1{
+	text-align: center;
+	font-size: 14px;
+	z-index: 201;
+	width: 100%;
+	position: absolute;
+	margin-left:auto;
+	margin-right:auto;  
+	margin-top: 84px;
+}
+
+.createAlertInfo .con1.on{
+	transform: scale(1);
+	opacity: 1;
+}
+
+.createAlertInfo .con1 img{
+	width: 110px;
+	height: 47px;
+}
+
+
+.createAlertInfo .con2{
+	text-align: center;
+	font-size: 14px;
+	z-index: 201;
+	width: 100%;
+	position: absolute;
+	margin-left:auto;
+	margin-right:auto;  
+	margin-top: 84px;
+}
+
+.createAlertInfo .con2.on{
+	transform: scale(1);
+	opacity: 1;
+}
+
+.createAlertInfo .con2 img{
+	width: 110px;
+	height: 47px;
+}
+
+
+/*.createAlertInfo .con a{
+	background: #dc4637;
+	display: block;
+	width: 200px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 4px;
+	color: #fff;
+	margin: 15px auto;
+	text-decoration: none;
+}
+*/
+
+
+.imme_moon img {
+	width: 100%;
+	position: fixed;
+	bottom: 0px;
+}
+
+.wdjp img {
+	width: 5.625rem;
+	position: fixed;
+	right: 0px;
+	bottom: 6.425rem;
+}
+
+.hdjs img{
+	position:fixed;
+	right: 0px;
+	width: 89px;
+	height: 43px;
+	bottom: 30px;
+}
+
+
+.wdtca {
+	width: 280px;
+	height: 300px;
+	display: none;
+}
+.wdtc img{
+
+	width: 100%;
+	position: absolute;
+	margin-left:auto; 
+	margin-right:auto; 
+	justify-content:center; display: -webkit-flex;
+}
+.scrollDiv2{
+	position: absolute;
+	width: 100%;
+	margin-top: 50px;
+	
+	margin-left:auto;
+	margin-right:auto; 
+	display: -webkit-flex;
+	justify-content:center; 
+	
+	line-height:47px;
+	overflow:hidden;
+}
+
+.wdtcnb {
+	display: none;
+}
+.wdtcnb .wdtcn img{
+	width: 100%;
+	margin-left:auto; 
+	margin-right:auto; 
+	justify-content:center; display: -webkit-flex;
+}
+
+.wdtcnb .wdtcn-img img{
+	position:absolute;
+	width: 100px;
+	height: 100px;
+	left:90px;
+	top:100px;
+	justify-content:center; display: -webkit-flex;
+}
+.wdtcnb .wdtcn-text{
+	margin-top: -5rem;
+	justify-content:center; display: -webkit-flex;
+	color: #FFFFFF;
+}
+
+.readyTimeBox{
+	top: 0;left: 0;width: 100%;height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-size: 120px;
+	font-weight: 700;
+	font-family: "PingFang SC";
+}
+.readyTimeBox1{
+	width: 100%;
+	
+	margin-left:auto;
+	margin-right:auto; 
+	margin-top:4.75rem; 
+	text-align: center;
+}
+
+.imme_moon .img_bg_moon img{
+	position:absolute;
+	width: 100%;
+	left:0px; 
+	bottom:0px;
+	right: 0px;
+}
+
+.imme_moon .huodongguize img{
+	z-index: 100;
+	position:absolute;
+	width: 90px;
+	height: 43px;
+	bottom:20px;
+	right: 0px;
+}
+
+.readyTimeBox span{
+	position: absolute;
+	opacity: 0;
+	transform: scale(2.5);
+}
+.readyTimeBox span.on{
+	opacity: 1;
+	transform: scale(1);
+}
